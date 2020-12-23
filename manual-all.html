@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stamp Manual All</title>
+    <style>
+        #stamp {
+            width: 300px;
+            height: 300px;
+            border: 1px solid black;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]:focus {
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-runnable-track {
+            background: tomato;
+            height: 5px;
+        }
+
+        input[type="range"]::-moz-range-track {
+            background: tomato;
+            height: 5px;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 15px;
+            width: 15px;
+            background: #fff;
+            border: black 1px solid;
+            margin-top: -5px;
+            border-radius: 50%;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            height: 15px;
+            width: 15px;
+            background: #fff;
+            border: black .5px solid;
+            margin-top: -5px;
+            border-radius: 30%;
+        }
+    </style>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+
+<body>
+	<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-3">
+	  <a class="navbar-brand" href="#">Stamp</a>
+	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	  </button>
+	  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+		<div class="navbar-nav">
+		  <a class="nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+		  <a class="nav-link" href="#">Features</a>
+		  <a class="nav-link" href="#">Pricing</a>
+		  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+		</div>
+	  </div>
+	</nav>
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-6">
+                <div class="mt-5" id="stamp">
+
+                </div>
+            </div>
+
+            <div class="col">
+			
+				<div class="form-group">
+
+                    <label for="">Department :</label>
+                    <input type="text" id="department" class="form-control" oninput="myDepartment()">
+                </div>
+				<div class="form-group">
+
+                    <label for="">Name :</label>
+                    <input type="text" id="name" class="form-control" oninput="myName()">
+                </div>
+				
+			
+                <div class="form-group">
+
+                    <label for="">Radius : <span id="circleSizeValue"></span></label>
+                    <input type="range" min="50" max="120" value="50" id="circleSize" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Font Size : <span id="fontSizeValue"></span></label>
+                    <input type="range" min="8" max="80" value="12" id="fontSize" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Department</label>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">X position : <span id="deptXpositionValue"></span></label>
+                            <input type="range" min="1" max="260" value="130" id="deptXposition" class="form-control">
+                        </div>
+
+                        <div class="col">
+                            <label for="">Y position : <span id="deptYpositionValue"></span></label>
+                            <input type="range" min="10" max="300" value="130" id="deptYposition" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Date</label>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">X position : <span id="dateXpositionValue"></span></label>
+                            <input type="range" min="1" max="260" value="123" id="dateXposition" class="form-control">
+                        </div>
+
+                        <div class="col">
+                            <label for="">Y position : <span id="dateYpositionValue"></span></label>
+                            <input type="range" min="10" max="300" value="153" id="dateYposition" class="form-control">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="">Name</label>
+                    <div class="row">
+                        <div class="col">
+                            <label for="">X position : <span id="nameXpositionValue"></span></label>
+                            <input type="range" min="1" max="260" value="120" id="nameXposition" class="form-control">
+                        </div>
+
+                        <div class="col">
+                            <label for="">Y position : <span id="nameYpositionValue"></span></label>
+                            <input type="range" min="10" max="300" value="180" id="nameYposition" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+
+
+    </div>
+
+    <script>
+
+        let circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name;
+		
+		dept = "Department"
+		name = "Name"
+
+        const stamp = document.getElementById("stamp");
+        const canvas = document.createElement("canvas");
+
+        // Circle size
+        const circleSizeBtn = document.getElementById("circleSize");
+        const circleSizeOutput = document.getElementById("circleSizeValue");
+
+        circleSize = circleSizeBtn.value;
+        circleSizeOutput.innerHTML = circleSize;
+
+        // Font size
+        const fontSizeBtn = document.getElementById("fontSize");
+        const fontSizeOutput = document.getElementById("fontSizeValue");
+
+        fontSize = fontSizeBtn.value;
+        fontSizeOutput.innerHTML = fontSize;
+
+        // Department position
+        const deptXBtn = document.getElementById("deptXposition");
+        const deptXOutput = document.getElementById("deptXpositionValue");
+
+        deptX = deptXBtn.value;
+        deptXOutput.innerHTML = deptX;
+
+        const deptYBtn = document.getElementById("deptYposition");
+        const deptYOutput = document.getElementById("deptYpositionValue");
+
+        deptY = deptYBtn.value;
+        deptYOutput.innerHTML = deptY;
+
+        // Date position
+        const dateXBtn = document.getElementById("dateXposition");
+        const dateXOutput = document.getElementById("dateXpositionValue");
+
+        dateX = dateXBtn.value;
+        dateXOutput.innerHTML = dateX;
+
+        const dateYBtn = document.getElementById("dateYposition");
+        const dateYOutput = document.getElementById("dateYpositionValue");
+
+        dateY = dateYBtn.value;
+        dateYOutput.innerHTML = dateY;
+
+        // Name position
+        const nameXBtn = document.getElementById("nameXposition");
+        const nameXOutput = document.getElementById("nameXpositionValue");
+
+        nameX = nameXBtn.value;
+        nameXOutput.innerHTML = nameX;
+
+        const nameYBtn = document.getElementById("nameYposition");
+        const nameYOutput = document.getElementById("nameYpositionValue");
+
+        nameY = nameYBtn.value;
+        nameYOutput.innerHTML = nameY;
+
+        // Event Listener
+		
+		function myDepartment() {
+			
+			dept = document.getElementById("department").value;
+			
+			//console.log(document.getElementById("department").value)
+			drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+		
+		}
+		
+		function myName() {
+			
+			name = document.getElementById("name").value;
+			
+			drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+		
+		}
+
+        circleSizeBtn.addEventListener("mousemove", function () {
+            circleSize = circleSizeBtn.value;
+
+            circleSizeOutput.innerHTML = circleSize;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        fontSizeBtn.addEventListener("mousemove", function () {
+            fontSize = fontSizeBtn.value;
+
+            fontSizeOutput.innerHTML = fontSize;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        // Department
+        deptXBtn.addEventListener("mousemove", function () {
+            deptX = deptXBtn.value;
+
+            deptXOutput.innerHTML = deptX;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        deptYBtn.addEventListener("mousemove", function () {
+            deptY = deptYBtn.value;
+
+            deptYOutput.innerHTML = deptY;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        // Date
+        dateXBtn.addEventListener("mousemove", function () {
+            dateX = dateXBtn.value;
+
+            dateXOutput.innerHTML = dateX;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        dateYBtn.addEventListener("mousemove", function () {
+            dateY = dateYBtn.value;
+
+            dateYOutput.innerHTML = dateY;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        // Name
+        nameXBtn.addEventListener("mousemove", function () {
+            nameX = nameXBtn.value;
+
+            nameXOutput.innerHTML = nameX;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        nameYBtn.addEventListener("mousemove", function () {
+            nameY = nameYBtn.value;
+
+            nameYOutput.innerHTML = nameY;
+            //drawCircle(circleSizeBtn.value);
+
+            drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        });
+
+        canvas.width = 300
+        canvas.height = 300
+
+
+        drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name);
+
+        function drawCircle(circleSize, fontSize, deptX, deptY, dateX, dateY, nameX, nameY, dept, name) {
+
+            stamp.appendChild(canvas);
+
+            const ctx = canvas.getContext("2d");
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.beginPath();
+            ctx.arc(150, 150, circleSize, 0, 2 * Math.PI);
+            ctx.lineWidth = circleSize / 40;
+
+            var x = 70;
+
+            ctx.moveTo(153 + circleSize / 2 + circleSize / 2.5, 155 - circleSize / 2.5)
+            ctx.lineTo(147 - circleSize / 2 - circleSize / 2.5, 155 - circleSize / 2.5)
+
+            ctx.moveTo(153 + circleSize / 2 + circleSize / 2.5, 145 + circleSize / 2.5)
+            ctx.lineTo(147 - circleSize / 2 - circleSize / 2.5, 145 + circleSize / 2.5)
+
+            ctx.stroke();
+
+            ctx.font = fontSize + "px Calibri";
+            // Department 
+            //ctx.strokeText("PET MIS", 155 - circleSize / 2 - circleSize / 20, 148 - circleSize / 3 - circleSize / 10);
+            ctx.strokeText(dept, deptX, deptY);
+
+            // Date
+            //ctx.strokeText("2020/04/21", 158 - circleSize / 2 - circleSize / 5.5, 155);
+            ctx.strokeText("2020/04/21", dateX, dateY);
+
+            // Name
+            //ctx.strokeText("W. Leonardo", 153 - circleSize / 2 - circleSize / 5.5, 153 + circleSize / 2 + circleSize / 10);
+            ctx.strokeText(name, nameX, nameY);
+        }
+
+
+    </script>
+</body>
+
+</html>
